@@ -1,0 +1,16 @@
+
+" Selecting only the plugins I want from splf13 .vimrc.bundles
+let g:spf13_bundle_groups=['general', 'neocomplcache', 'programming', 'ruby', 'python', 'javascript', 'html']
+
+Bundle 'vim-scripts/YankRing.vim'
+Bundle 'tpope/vim-repeat'
+Bundle 'tpope/vim-markdown'
+Bundle 'vim-scripts/project.tar.gz'
+Bundle 'vim-scripts/DfrankUtil'
+Bundle 'vim-scripts/vimprj'
+Bundle 'vim-scripts/indexer.tar.gz'
+Bundle 'vim-scripts/SingleCompile'
+Bundle 'vim-scripts/vcscommand.vim'
+"Bundle 'vim-scripts/OutlookVim'
+Bundle 'vim-scripts/csv.vim'
+Bundle 'vim-scripts/VisIncr'

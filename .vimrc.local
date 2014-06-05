@@ -1,0 +1,110 @@
+"---------------------------------------------------------------------------
+" General env
+"---------------------------------------------------------------------------
+let g:solarized_termtrans=0
+let g:solarized_contrast="normal"
+let g:solarized_visibility="normal"
+set listchars=tab:>\ ,trail:.,extends:#,nbsp:.
+
+"---------------------------------------------------------------------------
+" User functions
+"---------------------------------------------------------------------------
+"Function to underline a line
+"from http://vim.wikia.com/wiki/Underline_using_dashes_automatically
+function! s:Underline(chars)
+  let chars = empty(a:chars) ? '-' : a:chars
+  let nr_columns = virtcol('$') - 1
+  let uline = repeat(chars, (nr_columns / len(chars)) + 1)
+  put =strpart(uline, 0, nr_columns)
+  call cursor(line('.'), col('$'))
+endfunction
+command! -nargs=? Underline call s:Underline(<q-args>)
+
+function! s:Overline(chars)
+  let chars = empty(a:chars) ? '-' : a:chars
+  let nr_columns = virtcol('$') - 1
+  let uline = repeat(chars, (nr_columns / len(chars)) + 1)
+  -1put =strpart(uline, 0, nr_columns)
+  call cursor(line('.'), col('$'))
+endfunction
+command! -nargs=? Overline call s:Overline(<q-args>)
+
+function! s:OverUnderline(chars)
+  call s:Overline(a:chars)
+  call cursor(line('.') + 1, col('.'))
+  call s:Underline(a:chars)
+endfunction
+command! -nargs=? OverUnderline call s:OverUnderline(<q-args>)
+
+"---------------------------------------------------------------------------
+" User key binding
+"---------------------------------------------------------------------------
+"list buffers from normal/vis & insert mode
+noremap <C-b>l <ESC>:buffers<CR>
+inoremap <C-b>l <ESC>:buffers<CR>
+"list & change buffers from normal/vis & insert mode
+noremap <C-b>c <ESC>:buffers<CR>:buffer<Space>
+inoremap <C-b>c <ESC>:buffers<CR>:buffer<Space>
+"change to last buffer from normal/vis & insert mode
+noremap <C-b>b <ESC>:b#<CR>
+inoremap <C-b>b <ESC>:b#<CR>
+"underline the current line"
+noremap <Leader>h <ESC>:Underline<Space>
+noremap <Leader>hh <ESC>:OverUnderline<Space>
+
+
+"---------------------------------------------------------------------------
+" User key bindings for plugins/bundles
+"---------------------------------------------------------------------------
+" YankRing
+nnoremap <silent> <Leader>yr :YRGetElem<CR>
+" CtrlP
+let g:ctrlp_map = '<m-p>'
+
+"---------------------------------------------------------------------------
+" Settings for plugins/bundles
+"---------------------------------------------------------------------------
+" Limit version control diff check only to those I use
+let g:signify_vcs_list = [ 'svn', 'git', 'hg' ]
+
+" Reduce clutter on airline
+"   Remove hunk display this info comes from signify
+"   Reduce length of syntastic and whitespace error section
+"   Stop bufferline from printing to file display section
+let g:airline#extensions#hunks#enabled = 0
+let g:syntastic_stl_format = '%E{Err:%fe#%e}%B{, }%W{Warn:%fw#%w}'
+let g:airline#extensions#whitespace#trailing_format = 't:%s'
+let g:airline#extensions#whitespace#mixed_indent_format = 'i:%s'
+let g:airline#extensions#bufferline#enabled = 0
+
+" Stop bufferline echoing to command window, which requires me to hit enter to
+" dismiss
+let g:bufferline_echo = 0
+
+let g:neocomplcache_enable_insert_char_pre = 1
+let g:tagbar_autofocus = 1
+let g:tagbar_expand = 1
+let g:indexer_ctagsCommandLineOptions = "--c++-kinds=+p+l --fields=+iaS --extra=+q --languages=c++,c,python,java,IDL"
+let g:CSApprox_loaded = 1
+if version < 703
+    let g:loaded_numbers = 1
+else
+    nnoremap <F3> :NumbersToggle<CR>
+endif
+let g:indent_guides_start_level = 1
+let g:NERDSpaceDelims = 1
+let g:proj_flags="imstg"
+
+"---------------------------------------------------------------------------
+" programming languages configuration
+"---------------------------------------------------------------------------
+" IDL (Interactive Data Language) for tagbar
+let g:tagbar_type_idlang = {
+    \ 'ctagstype' : 'IDL',
+    \ 'kinds'     : [
+        \ 'p:procedure',
+        \ 'f:function'
+    \ ]
+\}
+
+
