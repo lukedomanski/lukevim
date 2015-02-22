@@ -71,20 +71,34 @@ let g:signify_vcs_list = [ 'svn', 'git', 'hg' ]
 "   Remove hunk display this info comes from signify
 "   Reduce length of syntastic and whitespace error section
 "   Stop bufferline from printing to file display section
+let g:airline_powerline_fonts=0
 let g:airline#extensions#hunks#enabled = 0
 let g:syntastic_stl_format = '%E{Err:%fe#%e}%B{, }%W{Warn:%fw#%w}'
 let g:airline#extensions#whitespace#trailing_format = 't:%s'
 let g:airline#extensions#whitespace#mixed_indent_format = 'i:%s'
 let g:airline#extensions#bufferline#enabled = 0
+let g:airline_left_sep='>'
+let g:airline_right_sep='<'
 
 " Stop bufferline echoing to command window, which requires me to hit enter to
 " dismiss
 let g:bufferline_echo = 0
 
+" Turn off autoclose
+let g:autoclose_on = 0
+
+" Slow down easytag updating
+let g:easytags_updatetime_min = 10000
+" easytag support project specific files
+let g:easytags_dynamic_files = 1
+let g:easytags_include_members = 1
+let g:easytags_auto_highlight = 0
+
 let g:neocomplcache_enable_insert_char_pre = 1
 let g:tagbar_autofocus = 1
 let g:tagbar_expand = 1
 let g:indexer_ctagsCommandLineOptions = "--c++-kinds=+p+l --fields=+iaS --extra=+q --languages=c++,c,python,java,IDL"
+let g:eastage_opts = "--c++-kinds=+p+l --fields=+iaS --extra=+q --languages=c++,c,python,java,IDL"
 let g:CSApprox_loaded = 1
 if version < 703
     let g:loaded_numbers = 1
