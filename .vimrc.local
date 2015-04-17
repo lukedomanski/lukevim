@@ -5,6 +5,12 @@ let g:solarized_termtrans=0
 let g:solarized_contrast="normal"
 let g:solarized_visibility="normal"
 set listchars=tab:>\ ,trail:.,extends:#,nbsp:.
+autocmd Filetype c,cpp set noexpandtab
+" fix stupid arrow key problem
+imap <ESC>oA <ESC>ki
+imap <ESC>oB <ESC>ji
+imap <ESC>oC <ESC>li
+imap <ESC>oD <ESC>hi
 
 "---------------------------------------------------------------------------
 " User functions
@@ -87,18 +93,38 @@ let g:bufferline_echo = 0
 " Turn off autoclose
 let g:autoclose_on = 0
 
+" Set up cscope
+if has("cscope")
+    set csprg=/usr/bin/cscope
+    set cscopetag
+    set csto=0
+    set cspc=4
+    set cst
+    set nocsverb
+    " add any database in current directory
+    if filereadable("cscope.out")
+        cs add cscope.out
+    " else add database pointed to by environment
+    elseif $CSCOPE_DB != ""
+        cs add $CSCOPE_DB
+    endif
+    set csverb
+endif
+
 " Slow down easytag updating
 let g:easytags_updatetime_min = 10000
 " easytag support project specific files
 let g:easytags_dynamic_files = 1
 let g:easytags_include_members = 1
 let g:easytags_auto_highlight = 0
+" Send easytag updates into background
+let g:easytags_async = 1
 
 let g:neocomplcache_enable_insert_char_pre = 1
 let g:tagbar_autofocus = 1
 let g:tagbar_expand = 1
 let g:indexer_ctagsCommandLineOptions = "--c++-kinds=+p+l --fields=+iaS --extra=+q --languages=c++,c,python,java,IDL"
-let g:eastage_opts = "--c++-kinds=+p+l --fields=+iaS --extra=+q --languages=c++,c,python,java,IDL"
+let g:easytags_opts = ['--c++-kinds=+p+l --fields=+iaS --extra=+q --languages=c++,c,python,java,IDL']
 let g:CSApprox_loaded = 1
 if version < 703
     let g:loaded_numbers = 1
