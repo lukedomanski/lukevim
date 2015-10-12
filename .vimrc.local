@@ -42,15 +42,32 @@ function! s:OverUnderline(chars)
 endfunction
 command! -nargs=? OverUnderline call s:OverUnderline(<q-args>)
 
+function! FormatBufferList()
+  redir => bufflist
+  buffers
+  redir END
+  " return join(map(split(bufflist, '\n'), "substitute(v:val, '^\\([^\"]*\\)\"\\([a-zA-Z0-\\.]\/\\)*\\([^\"]\\)\\.*$', '\\1\\3', '')"))
+  return join(map(split(bufflist, '\n'), "substitute(v:val, '^\\([^\"]*\\)\"\\([a-zA-Z0-9_~\\.]*\/\\)*\\([^\"]*\\).*', '\\1\\3', '')"), "\n")
+endfunction
+
 "---------------------------------------------------------------------------
 " User key binding
 "---------------------------------------------------------------------------
-"list buffers from normal/vis & insert mode
-noremap <C-b>l <ESC>:buffers<CR>
-inoremap <C-b>l <ESC>:buffers<CR>
-"list & change buffers from normal/vis & insert mode
-noremap <C-b>c <ESC>:buffers<CR>:buffer<Space>
-inoremap <C-b>c <ESC>:buffers<CR>:buffer<Space>
+" ESC replacement
+
+
+"list & search buffers from normal/vis & insert mode
+"Replaced by ctrlP
+noremap <C-[><C-[> <ESC>
+inoremap <C-[><C-[> <ESC>
+
+" noremap <C-b>c <ESC>:echo FormatBufferList()<CR>:buffer<Space>
+" inoremap <C-b>c <ESC>:echo FormatBufferList()<CR>:buffer<Space>
+noremap <C-b>c <ESC>:CtrlPBuffer<CR>
+inoremap <C-b>c <ESC>:CtrlPBuffer<CR>
+"list & search MRU list from normal/vis & insert mode
+noremap <C-b>m <ESC>:CtrlPMRU<CR>
+inoremap <C-b>m <ESC>:CtrlPMRU<CR>
 "change to last buffer from normal/vis & insert mode
 noremap <C-b>b <ESC>:b#<CR>
 inoremap <C-b>b <ESC>:b#<CR>
@@ -63,13 +80,20 @@ noremap <Leader>hh <ESC>:OverUnderline<Space>
 " User key bindings for plugins/bundles
 "---------------------------------------------------------------------------
 " YankRing
-nnoremap <silent> <Leader>yr :YRGetElem<CR>
+" nnoremap <silent> <Leader>yr :YRGetElem<CR>
 " CtrlP
-let g:ctrlp_map = '<m-p>'
+" let g:ctrlp_map = '<m-p>'
+
 
 "---------------------------------------------------------------------------
 " Settings for plugins/bundles
 "---------------------------------------------------------------------------
+" cpp-advanced-highlight
+let g:cpp_class_scope_highlight = 1
+
+" ctrlp-funky
+let g:ctrlp_funky_syntax_highlight = 1
+
 " Limit version control diff check only to those I use
 let g:signify_vcs_list = [ 'svn', 'git', 'hg' ]
 
